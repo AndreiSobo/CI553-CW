@@ -1,6 +1,7 @@
 package clients.cashier;
 
 import catalogue.Basket;
+import catalogue.BetterBasket;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
 import middle.StockReadWriter;
@@ -109,15 +110,19 @@ public class CashierView implements Observer
    * @param modelC   The observed model
    * @param arg      Specific args 
    */
+
+   /* MAKE CHANGE HERE TO REFLECT INTRODUCING BETTER BASKET */
   @Override
   public void update( Observable modelC, Object arg )
   {
     CashierModel model  = (CashierModel) modelC;
     String      message = (String) arg;
     theAction.setText( message );
-    Basket basket = model.getBasket();
+
+    // Basket basket = model.getBasket();
+    BetterBasket basket = model.getBasket();
     if ( basket == null )
-      theOutput.setText( "Customers order" );
+      theOutput.setText( "Customer orders will be added here." );
     else
       theOutput.setText( basket.getDetails() );
     

@@ -13,21 +13,24 @@ public class DBAccess
 {
   public void loadDriver() throws Exception
   {
-    throw new RuntimeException("No driver");
+    // Load MySQL JDBC driver
+    Class.forName("com.mysql.cj.jdbc.Driver");
   }
 
   public String urlOfDatabase()
   {
-    return "";
+    // Return URL of your MySQL database
+    // Replace hostname, port, and dbname with your values
+    return "jdbc:mysql://hostname:port/as2491_catshop2";
   }
 
   public String username()
   {
-    return "";
+    return "as2491";
   }
 
   public String password()
   {
-    return "";
+    return "Trabant123Cacat123";
   }
 }

@@ -1,6 +1,7 @@
 package clients.cashier;
 
 import catalogue.Basket;
+import catalogue.BetterBasket;
 import catalogue.Product;
 import debug.DEBUG;
 import middle.*;
@@ -18,7 +19,7 @@ public class CashierModel extends Observable
 
   private State       theState   = State.process;   // Current state
   private Product     theProduct = null;            // Current product
-  private Basket      theBasket  = null;            // Bought items
+  private BetterBasket      theBasket  = null;            // Bought items
 
   private String      pn = "";                      // Product being processed
 
@@ -47,7 +48,8 @@ public class CashierModel extends Observable
    * Get the Basket of products
    * @return basket
    */
-  public Basket getBasket()
+  // public Basket getBasket()
+  public BetterBasket getBasket()
   {
     return theBasket;
   }
@@ -192,9 +194,9 @@ public class CashierModel extends Observable
    * return an instance of a new Basket
    * @return an instance of a new Basket
    */
-  protected Basket makeBasket()
+  protected BetterBasket makeBasket()
   {
-    return new Basket();
+    return new BetterBasket();
   }
 }
   
