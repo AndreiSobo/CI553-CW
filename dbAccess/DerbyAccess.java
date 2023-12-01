@@ -18,6 +18,7 @@ class DerbyAccess extends DBAccess
    */
   public void loadDriver() throws Exception
   {
+    System.out.println("loading derby driver");
     Class.forName(DRIVER).newInstance();
   }
 
@@ -27,6 +28,7 @@ class DerbyAccess extends DBAccess
    */
   public String urlOfDatabase()
   {
+    System.out.println("loading derby dabase url");
     return URLdb;
   }
 }

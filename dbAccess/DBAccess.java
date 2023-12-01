@@ -15,22 +15,25 @@ public class DBAccess
   {
     // Load MySQL JDBC driver
     Class.forName("com.mysql.cj.jdbc.Driver");
+    // Class.forName("com.mysql.jdbc.Driver");
+    
   }
 
   public String urlOfDatabase()
   {
     // Return URL of your MySQL database
     // Replace hostname, port, and dbname with your values
-    return "jdbc:mysql://hostname:port/as2491_catshop2";
+
+    return "jdbc:mysql://178.128.37.54:3306/as2491_catshop2";
   }
 
   public String username()
   {
-    return "as2491";
+    return "as2491_user_test";
   }
 
   public String password()
   {
-    return "Trabant123Cacat123";
+    return "Deoareceichtyandro123";
   }
 }

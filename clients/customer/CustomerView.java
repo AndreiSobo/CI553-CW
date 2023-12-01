@@ -2,14 +2,22 @@ package clients.customer;
 
 import catalogue.Basket;
 import catalogue.BetterBasket;
+import clients.CatPawButton;
 import clients.Picture;
 import middle.MiddleFactory;
 import middle.StockReader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
+
+//make import for the sound files
+import javax.sound.sampled.*;
+
 
 /**
  * Implements the Customer view.
@@ -32,8 +40,12 @@ public class CustomerView implements Observer
   private final JTextField  theInput   = new JTextField();
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
-  private final JButton     theBtCheck = new JButton( Name.CHECK );
-  private final JButton     theBtClear = new JButton( Name.CLEAR );
+  // private final JButton     theBtCheck = new JButton( Name.CHECK );
+  // private final JButton     theBtClear = new JButton( Name.CLEAR );
+
+  // making changes to the intreface so that the view class uses the CatPawButton rather than the jButton
+  private final CatPawButton     theBtCheck = new CatPawButton( Name.CHECK );
+  private final CatPawButton     theBtClear = new CatPawButton( Name.CLEAR );
 
   private Picture thePicture = new Picture(80,80);
   private StockReader theStock   = null;
@@ -46,7 +58,17 @@ public class CustomerView implements Observer
    * @param x     x-cordinate of position of window on screen 
    * @param y     y-cordinate of position of window on screen  
    */
-  
+  public void playSound(String soundFileName) {
+    try {
+        File soundFile = new File(soundFileName);
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        e.printStackTrace();
+    }
+}
   public CustomerView( RootPaneContainer rpc, MiddleFactory mf, int x, int y )
   {
     try                                             // 
@@ -67,11 +89,15 @@ public class CustomerView implements Observer
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
+    theBtCheck.addActionListener(
+      // e -> playSound("C:/Users/soboa/OneDrive - University of Brighton/Documents/1.University of Brighton - Comp Science/YEAR 2/CI 553 - Object Oriented development and testing/CI553-CW/sounds/cat-meow6.wav"));
+      e -> playSound("C:\\Users\\soboa\\Downloads\\mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtClear.setBounds( 16, 25+60*1, 80, 40 );    // Clear button
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
+    
     cp.add( theBtClear );                           //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
@@ -79,7 +105,7 @@ public class CustomerView implements Observer
     cp.add( theAction );                            //  Add to canvas
 
     theInput.setBounds( 110, 50, 270, 40 );         // Product no area
-    theInput.setText("");                           // Blank
+    theInput.setText("Insert product code here");                           // Blank
     cp.add( theInput );                             //  Add to canvas
     
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
@@ -95,6 +121,7 @@ public class CustomerView implements Observer
     rootWindow.setVisible( true );                  // Make visible);
     theInput.requestFocus();                        // Focus is here
   }
+  
 
    /**
    * The controller object, used so that an interaction can be passed to the controller

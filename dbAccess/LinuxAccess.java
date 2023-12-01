@@ -8,12 +8,22 @@ package dbAccess;
 class LinuxAccess extends DBAccess
 {
   public void loadDriver() throws Exception
-  {
-    Class.forName("org.gjt.mm.mysql.Driver").newInstance();
+{
+  System.out.println("loading linux access driver");
+  try {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    System.out.println("Driver loaded successfully");
+  } catch (Exception e) {
+    System.out.println("Failed to load driver");
+    throw e;
   }
+}
 
-  public String urlOfDatabase()
-  {
-    return "jdbc:mysql://localhost/cshop?user=root";
-  }
+public String urlOfDatabase()
+{
+  System.out.println("loading linux access database url");
+  String url = "jdbc:mysql://178.128.37.54:3306/as2491_catshop2";
+  System.out.println("Database URL: " + url);
+  return url;
+}
 }

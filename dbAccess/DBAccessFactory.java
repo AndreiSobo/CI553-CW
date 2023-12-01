@@ -23,6 +23,7 @@ import java.io.IOException;
 public class DBAccessFactory
 {
   private static String theAction   = "";
+  // private static String theDataBase = "jdbc:mysql://178.128.37.54:3306/as2491_catshop2";
   private static String theDataBase = "";
   private static String theOS       = "";
 
@@ -33,7 +34,9 @@ public class DBAccessFactory
 
   private static String setEnvironment()
   {
-    theDataBase  = fileToString( "DataBase.txt" ) + theAction;
+    // theDataBase  = fileToString( "jdbc:mysql://178.128.37.54:3306/as2491_catshop2" ) + theAction;
+    // changed this so that its hardcodded 
+    theDataBase  = "mySQL";
     String os    = System.getProperties().getProperty( "os.name" );
     String arch  = System.getProperties().getProperty( "os.arch" );
     String osVer = System.getProperties().getProperty( "os.version" );

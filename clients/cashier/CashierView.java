@@ -27,6 +27,10 @@ public class CashierView implements Observer
 
   private final JLabel      theAction  = new JLabel();
   private final JTextField  theInput   = new JTextField();
+
+  // adding another input field where the quantity of the items will be
+  private final JTextField  quantityNo   = new JTextField();
+
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
@@ -82,9 +86,14 @@ public class CashierView implements Observer
     theAction.setText( "" );                        // Blank
     cp.add( theAction );                            //  Add to canvas
 
-    theInput.setBounds( 110, 50, 270, 40 );         // Input Area
-    theInput.setText("");                           // Blank
+    // theInput.setBounds( 110, 50, 270, 40 );         // Input Area
+    theInput.setBounds( 110, 50, 120, 40 );  
+    theInput.setText("Item code here");                           // Blank
     cp.add( theInput );                             //  Add to canvas
+
+    quantityNo.setBounds(260, 50, 120, 40);
+    quantityNo.setText("Quantity here");
+    cp.add(quantityNo);
 
     theSP.setBounds( 110, 100, 270, 160 );          // Scrolling pane
     theOutput.setText( "" );                        //  Blank
