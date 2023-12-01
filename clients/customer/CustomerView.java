@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 //make import for the sound files
 import javax.sound.sampled.*;
 
@@ -71,18 +72,39 @@ public class CustomerView implements Observer
 }
   public CustomerView( RootPaneContainer rpc, MiddleFactory mf, int x, int y )
   {
-    try                                             // 
-    {      
-      theStock  = mf.makeStockReader();             // Database Access
-    } catch ( Exception e )
-    {
-      System.out.println("Exception: " + e.getMessage() );
+    try                                             
+  {      
+    theStock  = mf.makeStockReader();             // Database Access
+  } catch ( Exception e )
+  {
+    System.out.println("Exception: " + e.getMessage() );
+  }
+
+  // Load the background image
+  Image bgImage = null;
+  try {
+    bgImage = ImageIO.read(getClass().getResource("/resources/cats_pic3.jpg"));
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+
+  // Create a new content pane with a custom paintComponent method
+  final Image finalBgImage = bgImage;
+  JPanel contentPane = new JPanel() {
+    @Override
+    protected void paintComponent(Graphics g) {
+      super.paintComponent(g);
+      g.drawImage(finalBgImage, 0, 0, null);
     }
-    Container cp         = rpc.getContentPane();    // Content Pane
-    Container rootWindow = (Container) rpc;         // Root Window
-    cp.setLayout(null);                             // No layout manager
-    rootWindow.setSize( W, H );                     // Size of Window
-    rootWindow.setLocation( x, y );
+  };
+
+  contentPane.setLayout(null);
+  rpc.setContentPane(contentPane); // Set the new content pane
+
+  Container cp         = rpc.getContentPane();    // Content Pane
+  Container rootWindow = (Container) rpc;         // Root Window
+  rootWindow.setSize( W, H );                     // Size of Window
+  rootWindow.setLocation( x, y );
 
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
@@ -91,7 +113,8 @@ public class CustomerView implements Observer
       e -> cont.doCheck( theInput.getText() ) );
     theBtCheck.addActionListener(
       // e -> playSound("C:/Users/soboa/OneDrive - University of Brighton/Documents/1.University of Brighton - Comp Science/YEAR 2/CI 553 - Object Oriented development and testing/CI553-CW/sounds/cat-meow6.wav"));
-      e -> playSound("C:\\Users\\soboa\\Downloads\\mixkit-angry-cartoon-kitty-meow-94.wav"));
+      // e -> playSound("C:\\Users\\soboa\\Downloads\\mixkit-angry-cartoon-kitty-meow-94.wav"));
+      e -> playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtClear.setBounds( 16, 25+60*1, 80, 40 );    // Clear button

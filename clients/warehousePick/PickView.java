@@ -3,9 +3,12 @@ package clients.warehousePick;
 import catalogue.Basket;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
+import clients.CatPawButton;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,7 +28,7 @@ public class PickView implements Observer
   private final JLabel      theAction  = new JLabel();
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
-  private final JButton     theBtPicked= new JButton( PICKED );
+  private final CatPawButton     theBtPicked= new CatPawButton( PICKED );
  
   private OrderProcessing theOrder     = null;
   
@@ -47,11 +50,30 @@ public class PickView implements Observer
     {
       System.out.println("Exception: " + e.getMessage() );
     }
-    Container cp         = rpc.getContentPane();    // Content Pane
-    Container rootWindow = (Container) rpc;         // Root Window
-    cp.setLayout(null);                             // No layout manager
-    rootWindow.setSize( W, H );                     // Size of Window
-    rootWindow.setLocation( x, y );
+    Image bgImage = null;
+  try {
+    bgImage = ImageIO.read(getClass().getResource("/resources/cats_pic3.jpg"));
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+
+  // Create a new content pane with a custom paintComponent method
+  final Image finalBgImage = bgImage;
+  JPanel contentPane = new JPanel() {
+    @Override
+    protected void paintComponent(Graphics g) {
+      super.paintComponent(g);
+      g.drawImage(finalBgImage, 0, 0, null);
+    }
+  };
+
+  contentPane.setLayout(null);
+  rpc.setContentPane(contentPane); // Set the new content pane
+
+  Container cp         = rpc.getContentPane();    // Content Pane
+  Container rootWindow = (Container) rpc;         // Root Window
+  rootWindow.setSize( W, H );                     // Size of Window
+  rootWindow.setLocation( x, y );
     
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 

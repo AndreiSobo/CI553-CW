@@ -14,7 +14,7 @@ public class CatPawButton extends JButton {
     private static final int SMALL_PAD_SIZE = 15;
 
     // Constants for colors
-    private static final Color PAW_COLOR = Color.gray;
+    private static final Color PAW_COLOR = Color.pink;
     private static final Color SMALL_PAD_COLOR = Color.pink; // You can adjust the color
 
     // Constructor
@@ -27,7 +27,7 @@ public class CatPawButton extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         if (getModel().isArmed()) {
-            g.setColor(Color.lightGray);
+            g.setColor(new Color(255, 0, 127));
         } else {
             g.setColor(PAW_COLOR);
         }

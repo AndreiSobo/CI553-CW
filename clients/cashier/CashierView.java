@@ -5,9 +5,12 @@ import catalogue.BetterBasket;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
 import middle.StockReadWriter;
+import clients.CatPawButton;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -33,9 +36,9 @@ public class CashierView implements Observer
 
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
-  private final JButton     theBtCheck = new JButton( CHECK );
-  private final JButton     theBtBuy   = new JButton( BUY );
-  private final JButton     theBtBought= new JButton( BOUGHT );
+  private final CatPawButton     theBtCheck = new CatPawButton( CHECK );
+  private final CatPawButton     theBtBuy   = new CatPawButton( BUY );
+  private final CatPawButton     theBtBought= new CatPawButton( BOUGHT );
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
@@ -67,11 +70,31 @@ public class CashierView implements Observer
     {
       System.out.println("Exception: " + e.getMessage() );
     }
-    Container cp         = rpc.getContentPane();    // Content Pane
-    Container rootWindow = (Container) rpc;         // Root Window
-    cp.setLayout(null);                             // No layout manager
-    rootWindow.setSize( W, H );                     // Size of Window
-    rootWindow.setLocation( x, y );
+    
+    Image bgImage = null;
+  try {
+    bgImage = ImageIO.read(getClass().getResource("/resources/cats_pic3.jpg"));
+  } catch (IOException e) {
+    e.printStackTrace();
+  }
+
+  // Create a new content pane with a custom paintComponent method
+  final Image finalBgImage = bgImage;
+  JPanel contentPane = new JPanel() {
+    @Override
+    protected void paintComponent(Graphics g) {
+      super.paintComponent(g);
+      g.drawImage(finalBgImage, 0, 0, null);
+    }
+  };
+
+  contentPane.setLayout(null);
+  rpc.setContentPane(contentPane); // Set the new content pane
+
+  Container cp         = rpc.getContentPane();    // Content Pane
+  Container rootWindow = (Container) rpc;         // Root Window
+  rootWindow.setSize( W, H );                     // Size of Window
+  rootWindow.setLocation( x, y );
 
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
 
