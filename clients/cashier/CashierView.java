@@ -48,6 +48,14 @@ public class CashierView implements Observer
    * @param x     x-coordinate of position of window on screen 
    * @param y     y-coordinate of position of window on screen  
    */
+
+   // add function that will return the value of the quantityNo inout field
+  public int getQuantityNo() 
+  {
+    String quantityNoString = quantityNo.getText();
+    int quantityNoInt = Integer.parseInt(quantityNoString);
+    return quantityNoInt;
+  }
           
   public CashierView(  RootPaneContainer rpc,  MiddleFactory mf, int x, int y  )
   {
@@ -69,12 +77,12 @@ public class CashierView implements Observer
 
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText() ) );
+      e -> cont.doCheck( theInput.getText(), Integer.parseInt(quantityNo.getText())) );
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
     theBtBuy.addActionListener(                     // Call back code
-      e -> cont.doBuy() );
+      e -> cont.doBuy(Integer.parseInt(quantityNo.getText())) );
     cp.add( theBtBuy );                             //  Add to canvas
 
     theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Clear Button

@@ -26,17 +26,17 @@ public class CashierController
    * Check interaction from view
    * @param pn The product number to be checked
    */
-  public void doCheck( String pn )
+  public void doCheck( String pn, int quantity)
   {
-    model.doCheck(pn);
+    model.doCheck(pn, quantity);
   }
 
    /**
    * Buy interaction from view
    */
-  public void doBuy()
+  public void doBuy(int cant)
   {
-    model.doBuy();
+    model.doBuy(cant);
   }
   
    /**
@@ -45,5 +45,10 @@ public class CashierController
   public void doBought()
   {
     model.doBought();
+  }
+
+  public int doGetQuantityNo()
+  {
+    return view.getQuantityNo();
   }
 }

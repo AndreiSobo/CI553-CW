@@ -33,7 +33,7 @@ public class CashierModel extends Observable
 
   public CashierModel(MiddleFactory mf)
   {
-    try                                           // 
+  try                                          
     {      
       theStock = mf.makeStockReadWriter();        // Database access
       theOrder = mf.makeOrderProcessing();        // Process order
@@ -58,18 +58,19 @@ public class CashierModel extends Observable
    * Check if the product is in Stock
    * @param productNum The product number
    */
-  public void doCheck(String productNum )
+  public void doCheck(String productNum, int quantity)
   {
     String theAction = "";
     theState  = State.process;                  // State process
     pn  = productNum.trim();                    // Product no.
-    int    amount  = 1;                         //  & quantity
+    int    amount  = 1;                  //  & quantity
+    int quan = quantity;
     try
     {
       if ( theStock.exists( pn ) )              // Stock Exists?
       {                                         // T
         Product pr = theStock.getDetails(pn);   //  Get details
-        if ( pr.getQuantity() >= amount )       //  In stock?
+        if ( pr.getQuantity() >= quan )       //  In stock?
         {                                       //  T
           theAction =                           //   Display 
             String.format( "%s : %7.2f (%2d) ", //
@@ -99,29 +100,35 @@ public class CashierModel extends Observable
   /**
    * Buy the product
    */
-  public void doBuy()
+  public void doBuy(int cant)
   {
     String theAction = "";
-    int    amount  = 1;                         //  & quantity
+    // int    amount  = 1;                         //  & quantity
+    // cant = amount;
+    // this. = cant;
     try
     {
       if ( theState != State.checked )          // Not checked
       {                                         //  with customer
         theAction = "Check if OK with customer first";
       } else {
-        boolean stockBought =                   // Buy
-          theStock.buyStock(                    //  however
-            theProduct.getProductNum(),         //  may fail              
-            theProduct.getQuantity() );         //
-        if ( stockBought )                      // Stock bought
-        {                                       // T
-          makeBasketIfReq();                    //  new Basket ?
-          theBasket.add( theProduct );          //  Add to bought
-          theAction = "Purchased " +            //    details
-                  theProduct.getDescription();  //
-        } else {                                // F
-          theAction = "!!! Not in stock";       //  Now no stock
+        for (int i=0; i< cant; i++)
+        {
+            boolean stockBought =                   // Buy
+            theStock.buyStock(                    //  however
+              theProduct.getProductNum(),         //  may fail              
+              theProduct.getQuantity() );         //
+          if ( stockBought )                      // Stock bought
+          {                                       // T
+            makeBasketIfReq();                    //  new Basket ?
+            theBasket.add( theProduct );          //  Add to bought
+            theAction = "Purchased " +            //    details
+                    theProduct.getDescription();  //
+          } else {                                // F
+            theAction = "!!! Not in stock";       //  Now no stock
+          }
         }
+        
       }
     } catch( StockException e )
     {

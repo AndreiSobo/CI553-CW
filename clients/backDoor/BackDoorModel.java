@@ -147,9 +147,9 @@ public class BackDoorModel extends Observable
    * return an instance of a Basket
    * @return a new instance of a Basket
    */
-  protected Basket makeBasket()
+  protected BetterBasket makeBasket()
   {
-    return new Basket();
+    return new BetterBasket();
   }
 }
 
