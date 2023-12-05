@@ -27,6 +27,7 @@ public class CashierView implements Observer
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
   private static final String BOUGHT = "Bought";
+  private static final String RECEIPT = "Receipt";
 
   private final JLabel      theAction  = new JLabel();
   private final JTextField  theInput   = new JTextField();
@@ -39,6 +40,7 @@ public class CashierView implements Observer
   private final CatPawButton     theBtCheck = new CatPawButton( CHECK );
   private final CatPawButton     theBtBuy   = new CatPawButton( BUY );
   private final CatPawButton     theBtBought= new CatPawButton( BOUGHT );
+  private final CatPawButton    theBtReceipt = new CatPawButton(RECEIPT);
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
@@ -100,12 +102,18 @@ public class CashierView implements Observer
 
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText(), Integer.parseInt(quantityNo.getText())) );
+      e -> cont.doCheck( theInput.getText(), quantityNo.getText()) );
     cp.add( theBtCheck );                           //  Add to canvas
+
+    // adding the receipt button
+    theBtReceipt.setBounds(16, 145+60*0, 80, 40);
+    theBtReceipt.addActionListener(
+      e -> cont.doReceipt() );
+    cp.add( theBtReceipt);
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
     theBtBuy.addActionListener(                     // Call back code
-      e -> cont.doBuy(Integer.parseInt(quantityNo.getText())) );
+      e -> cont.doBuy(quantityNo.getText()) );
     cp.add( theBtBuy );                             //  Add to canvas
 
     theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Clear Button
@@ -159,7 +167,6 @@ public class CashierView implements Observer
     String      message = (String) arg;
     theAction.setText( message );
 
-    // Basket basket = model.getBasket();
     BetterBasket basket = model.getBasket();
     if ( basket == null )
       theOutput.setText( "Customer orders will be added here." );
