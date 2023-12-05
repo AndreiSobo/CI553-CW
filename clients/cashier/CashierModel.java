@@ -102,10 +102,8 @@ public class CashierModel extends Observable
    */
   public void doBuy(int cant)
   {
+    
     String theAction = "";
-    // int    amount  = 1;                         //  & quantity
-    // cant = amount;
-    // this. = cant;
     try
     {
       if ( theState != State.checked )          // Not checked
