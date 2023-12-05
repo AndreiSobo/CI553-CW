@@ -6,7 +6,17 @@ import catalogue.Product;
 import debug.DEBUG;
 import middle.*;
 
+// import LocanDateTime and the formatter for it
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.io.File;
+// Import the FileWriter class
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.util.Observable;
+
+import org.junit.platform.commons.function.Try;
 
 /**
  * Implements the Model of the cashier client
@@ -25,6 +35,8 @@ public class CashierModel extends Observable
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
+
+  
 
   /**
    * Construct the model of the Cashier
@@ -57,14 +69,17 @@ public class CashierModel extends Observable
   /**
    * Check if the product is in Stock
    * @param productNum The product number
+   * @param quantity The quantity intended to be bought
    */
-  public void doCheck(String productNum, int quantity)
+  public void doCheck(String productNum, String quantity)
   {
-    String theAction = "";
+    try {
+      // int quan = Integer.parseInt(quantity);
+      String theAction = "";
     theState  = State.process;                  // State process
     pn  = productNum.trim();                    // Product no.
-    int    amount  = 1;                  //  & quantity
-    int quan = quantity;
+    int    amount  = 1;                         //  & quantity
+    int quan = Integer.parseInt(quantity);      // checks if this specific quantity is in stock.
     try
     {
       if ( theStock.exists( pn ) )              // Stock Exists?
@@ -93,24 +108,31 @@ public class CashierModel extends Observable
       DEBUG.error( "%s\n%s", 
             "CashierModel.doCheck", e.getMessage() );
       theAction = e.getMessage();
+      // setChanged(); notifyObservers(theAction);
     }
     setChanged(); notifyObservers(theAction);
+  } catch (NumberFormatException e) {
+      System.out.println("Invalid quantity entered. Please use an integer.");
+  }
   }
 
   /**
    * Buy the product
+   * @param cant  quantity to buy
    */
-  public void doBuy(int cant)
+  public void doBuy(String cant)
   {
     
     String theAction = "";
+    try {
+      int quant = Integer.parseInt(cant);
     try
     {
       if ( theState != State.checked )          // Not checked
       {                                         //  with customer
         theAction = "Check if OK with customer first";
       } else {
-        for (int i=0; i< cant; i++)
+        for (int i=0; i< quant; i++)
         {
             boolean stockBought =                   // Buy
             theStock.buyStock(                    //  however
@@ -136,6 +158,45 @@ public class CashierModel extends Observable
     }
     theState = State.process;                   // All Done
     setChanged(); notifyObservers(theAction);
+    } catch (NumberFormatException e ) {
+      System.out.println("Invalid quantity entered. Please use an integer.");
+    }
+  }
+
+  /**
+   * Generate a receipt for the purchase
+   */
+  public void doReceipt()
+  {
+    BetterBasket basket = getBasket();                                                      // create a betterbasket object
+    if (basket != null) {                                                                   // checks if items added to basket
+      LocalDateTime now = LocalDateTime.now ();                                             // current date time. used on receipt
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern ("yyyy_MM_dd HH-mm-ss");  // formatting for terminal window
+      DateTimeFormatter dtfReceipts = DateTimeFormatter.ofPattern ("yyyy_MM_dd--HH-mm-ss"); //formatting for name of files
+      String datern = dtf.format(now);                                                      // datetime for terminal
+      String dateReceipts = dtfReceipts.format(now);                                        // datetime for filenames
+    try {
+      File directory = new File("receipts");                                        //ensures code can be ran on another machine and 
+      if (! directory.exists())                                                              // not give an error related to receipt files pathing
+      {
+        directory.mkdir();
+      }
+      String receiptName = "receipts/" + dateReceipts + ".txt";
+      FileWriter myWriter = new FileWriter(receiptName);                                      // creates writer object
+      // FileWriter myWriter2 = new FileWriter("receipts/filename2.txt");
+      myWriter.write("Thank you for shopping with Cat Shop! \n \n" + basket.getDetails() + "\nYour purchase was made at " + datern + ". No refunds.");
+      myWriter.close();                                                                       // closes writer object
+      
+      System.out.println("\nThank you for your purchase made at: "+ datern + 
+      "\nBelow are the details of your purchase and your receipt named " + dateReceipts + " is in the receipt folder\n" +
+      basket.getDetails());                                                                     // console output to notify of receipt
+    } catch (IOException e) {
+      System.out.println("An error occurred while writing receipt.");
+      e.printStackTrace();
+    }
+    } else {
+      System.out.println("Cannot print receipt - Basket is empty.");                          // notifies user of basket status
+    }
   }
   
   /**

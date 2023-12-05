@@ -21,6 +21,7 @@ import java.util.Observer;
 public class PickView implements Observer
 {
   private static final String PICKED = "Picked";
+  private static final String RECEIPT = "Receipt";
 
   private static final int H = 300;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
