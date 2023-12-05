@@ -108,8 +108,9 @@ public class CashierModel extends Observable
       DEBUG.error( "%s\n%s", 
             "CashierModel.doCheck", e.getMessage() );
       theAction = e.getMessage();
-      setChanged(); notifyObservers(theAction);
+      // setChanged(); notifyObservers(theAction);
     }
+    setChanged(); notifyObservers(theAction);
   } catch (NumberFormatException e) {
       System.out.println("Invalid quantity entered. Please use an integer.");
   }
