@@ -59,7 +59,7 @@ public class CustomerView implements Observer
    * @param x     x-cordinate of position of window on screen 
    * @param y     y-cordinate of position of window on screen  
    */
-  public void playSound(String soundFileName) {
+  public static void playSound(String soundFileName) {
     try {
         File soundFile = new File(soundFileName);
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
@@ -112,15 +112,14 @@ public class CustomerView implements Observer
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText() ) );
     theBtCheck.addActionListener(
-      // e -> playSound("C:/Users/soboa/OneDrive - University of Brighton/Documents/1.University of Brighton - Comp Science/YEAR 2/CI 553 - Object Oriented development and testing/CI553-CW/sounds/cat-meow6.wav"));
-      // e -> playSound("C:\\Users\\soboa\\Downloads\\mixkit-angry-cartoon-kitty-meow-94.wav"));
       e -> playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtCheck );                           //  Add to canvas
 
     theBtClear.setBounds( 16, 25+60*1, 80, 40 );    // Clear button
     theBtClear.addActionListener(                   // Call back code
       e -> cont.doClear() );
-    
+    theBtClear.addActionListener(
+      e -> playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtClear );                           //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area

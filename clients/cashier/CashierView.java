@@ -6,6 +6,7 @@ import middle.MiddleFactory;
 import middle.OrderProcessing;
 import middle.StockReadWriter;
 import clients.CatPawButton;
+import clients.customer.CustomerView;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -103,22 +104,30 @@ public class CashierView implements Observer
     theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check Button
     theBtCheck.addActionListener(                   // Call back code
       e -> cont.doCheck( theInput.getText(), quantityNo.getText()) );
+    theBtCheck.addActionListener(
+        e -> CustomerView.playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtCheck );                           //  Add to canvas
 
     // adding the receipt button
     theBtReceipt.setBounds(16, 145+60*0, 80, 40);
     theBtReceipt.addActionListener(
       e -> cont.doReceipt() );
+    theBtReceipt.addActionListener(
+        e -> CustomerView.playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtReceipt);
 
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
     theBtBuy.addActionListener(                     // Call back code
       e -> cont.doBuy(quantityNo.getText()) );
+    theBtBuy.addActionListener(
+        e -> CustomerView.playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtBuy );                             //  Add to canvas
 
     theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Clear Button
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
+    theBtBought.addActionListener(
+        e -> CustomerView.playSound("resources/mixkit-angry-cartoon-kitty-meow-94.wav"));
     cp.add( theBtBought );                          //  Add to canvas
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
