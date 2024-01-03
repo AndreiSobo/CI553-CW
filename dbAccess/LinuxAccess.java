@@ -12,9 +12,11 @@ class LinuxAccess extends DBAccess
   System.out.println("loading linux access driver");
   try {
     Class.forName("com.mysql.cj.jdbc.Driver");
+    // Class.forName("com.mysql.jdbc.Driver");
     System.out.println("Driver loaded successfully");
   } catch (Exception e) {
     System.out.println("Failed to load driver");
+    System.out.println("Failed to load driver: " + e.getMessage());
     throw e;
   }
 }
