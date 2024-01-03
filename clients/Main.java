@@ -22,7 +22,7 @@ import middle.MiddleFactory;
 
 import javax.swing.*;
 import java.awt.*;
-// sup hows things
+// this is a change
 
 /**
  * Starts all the clients  as a single application.
