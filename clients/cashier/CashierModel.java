@@ -145,7 +145,7 @@ public class CashierModel extends Observable
             theAction = "Purchased " +            //    details
                     theProduct.getDescription();  //
           } else {                                // F
-            theAction = "!!! Not in stock";       //  Now no stock
+            theAction = "!!! Not in stock";       //  Not no stock
           }
         }
         
