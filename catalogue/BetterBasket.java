@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Write a description of class BetterBasket here.
  * 
- * @author  Your Name 
+ * @author  POSBOSS's boss. Boss of the poss
  * @version 1.0
  */
 public class BetterBasket extends Basket
